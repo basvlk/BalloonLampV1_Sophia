@@ -63,7 +63,7 @@
 const byte ArduinoLedPin =  13  ;   // NOT the NeoPixel data pin!! the number of the Arduino LED pin - it's blinking helps seeing if the program runs
 const byte IRBusyLedPin =  12  ;   // NOT the NeoPixel data pin!! the number of the Arduino LED pin - it's blinking helps seeing if the program runs
 const byte IRrecv_PIN = 11; // Remote control receive pin. using TSOP4838, with the sensor facing you, legs down, left to right: Signal out (connect to pin 10), GND, IN (3.3V)
-#define NeoPixel_PIN 10 //String of NeoPixels connected here
+#define NeoPixel_PIN 7 //String of NeoPixels connected here
 
 
 //LED SETUP
@@ -84,7 +84,7 @@ byte IRModeState = 0;
 byte PrevIRModeState = 0; // To carry over the previous mode to be able to iterate through table
 unsigned long LastIRReceived = 0;
 unsigned long IRMuteTime = 800; //once a button click is read, it's ignored for ButtenClickTimer ms
-byte IRModeModeTable[10] = { 1, 20, 22, 23, 6, 7, 3, 1, 1, 1 }; // determines which presets, and in what order are cycled
+byte IRModeModeTable[10] = { 24, 20, 6, 7, 1, 1, 1, 1, 1, 1 }; // determines which presets, and in what order are cycled
 
 
 //DIAGNOSTIC TOOLS
@@ -123,7 +123,8 @@ byte STATE20[nLEDs * 3] = { 211, 0, 0, 211, 0, 0, 211, 0, 0, 211, 0, 0, 255, 255
 byte STATE21[nLEDs * 3] = { 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144, 196, 114, 144};
 byte STATE22[nLEDs * 3] = { 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, 172, 170, 0, };
 byte STATE23[nLEDs * 3] = { 255, 5, 0, 0, 255, 0, 139, 1, 49, 172, 170, 0, 255, 5, 0, 0, 255, 0, 139, 1, 49, 172, 170, 0, 255, 5, 0, 0, 255, 0, 139, 1, 49, 172, 170, 0, };
-byte STATE24[nLEDs * 3] = { 46, 0, 69, 46, 0, 69, 46, 0, 69, 46, 0, 69, 0, 47, 20, 0, 47, 20, 0, 47, 20, 0, 47, 20, 54, 53, 0, 54, 53, 0, 54, 53, 0, 54, 53, 0, };
+byte STATE24[nLEDs * 3] = { 12, 0, 12, 12, 0, 12, 12, 0, 12, 12, 0, 12, 0, 15, 5, 0, 15, 5, 0, 15, 5, 0, 15, 5, 15, 15, 0, 15, 15, 0, 15, 15, 0, 15, 15, 0, };
+// byte STATE24[nLEDs * 3] = { 46, 0, 69, 46, 0, 69, 46, 0, 69, 46, 0, 69, 0, 47, 20, 0, 47, 20, 0, 47, 20, 0, 47, 20, 54, 53, 0, 54, 53, 0, 54, 53, 0, 54, 53, 0, }; // alternative state 24NIcely colored to match the globes
 
 //**********************************************************
 //*************      S E T U P       ***********************
@@ -144,7 +145,7 @@ void setup() {
   Serial.println("]0"); // start value for host program: 0 bytes in buffer
 
   IRModeState = 0;
-  Mode = 20;
+  Mode = 24;
 }
 //**********************************************************
 //  *************         M A I N       **********************
@@ -576,7 +577,7 @@ void ReadIRRemote() {
     if (go) {
       digitalWrite(IRBusyLedPin, HIGH);
       IRModeState++;
-      if (IRModeState > 9) {
+      if (IRModeState > 4) {
         IRModeState = 0;
       }
       Mode = IRModeModeTable[IRModeState];
